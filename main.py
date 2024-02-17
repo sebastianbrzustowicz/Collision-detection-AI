@@ -10,11 +10,14 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.2)
 X_train = X_train.astype('float32')
 X_test = X_test.astype('float32')
 
-# Show X_train data frame
-#print(X_train.head())
+# Show data frames
+pd.set_option('display.max_columns', None)
 
-# Show y_train data frame
-#print(y_train.head())
+#print(X_train.head(10))
+#print(X_test.iloc[:, :10])
+#print(y_train.head(10))
+
+#exit(0)
 
 # 1. Import dependencies
 from tensorflow.keras.models import Sequential, load_model
@@ -29,13 +32,13 @@ model.add(Dense(units=1, activation="sigmoid"))
 
 model.compile(loss="binary_crossentropy", optimizer="sgd", metrics=["accuracy"])
 
-# 3. Fir, predict and evaluate
-model.fit(X_train, y_train, epochs=100, batch_size=32)
+# 3. Fit, predict and evaluate
+model.fit(X_train, y_train, epochs=200, batch_size=32)
 
 y_hat = model.predict(X_test)
 y_hat = [0 if val <0.5 else 1 for val in y_hat]
 
-print("\nAccuracy: " + accuracy_score(y_test, y_hat))
+print("\nAccuracy: " + str(accuracy_score(y_test, y_hat)))
 
 # 4. Saving and reloading
 model.save("tfmodel")
