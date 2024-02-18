@@ -4,7 +4,7 @@ Train your machine learning model for collision detection with an accelerometer 
 The current model is kinda overfitted due to lack of diverse datasets.    
 So it would be better for you to provide your own collected data from sensor.   
 The data should reflect the real conditions where your sensor is used.    
-For example mobile robots, manipulator robots or flying vehicles datasets may vary.    
+For example, data sets from mobile robots, robotic manipulators or flying vehicles may differ.        
 The point of this training script is to generate relevant model.    
 
 ## Commands
