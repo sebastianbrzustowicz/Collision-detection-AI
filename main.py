@@ -13,11 +13,11 @@ X_test = X_test.astype('float32')
 # Show data frames
 pd.set_option('display.max_columns', None)
 
-#print(X_train.head(10))
+print(X_train.columns)
 #print(X_test.iloc[:, :10])
 #print(y_train.head(10))
 
-#exit(0)
+exit(0)
 
 # 1. Import dependencies
 from tensorflow.keras.models import Sequential, load_model
