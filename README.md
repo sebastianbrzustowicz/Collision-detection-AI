@@ -2,7 +2,7 @@
 
 Train your machine learning model for collision detection with an accelerometer sensor data and TensorFlow.    
 The current model is kinda overfitted due to lack of diverse datasets.    
-So it would be better for you to train model on your own collected data from sensor.   
+So it would be better for you to provide your own collected data from sensor.   
 The data should reflect the real conditions where your sensor is used.    
 For example mobile robots, manipulator robots or flying vehicles datasets may vary.    
 The point of this training script is to generate relevant model.    
