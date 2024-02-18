@@ -5,6 +5,8 @@ if [ ! -f "data_factory.py" ]; then
   exit 1
 fi
 
+echo "Creating dataset for model training and evaluation..."
+
 python data_factory.py train
 
 if [ $? -eq 0 ]; then
@@ -75,6 +77,17 @@ if [ $? -eq 0 ]; then
 else
   echo "Model training failed."
   exit 1
+fi
+
+read -p "Do you want to look at model evaluation more precisely? (y/n): " choice
+
+if [[ $choice =~ ^[Yy]$ ]]; then
+    echo "Checking model evaluation more precisely..."
+    if [ ! -f "evaluate_model.py" ]; then
+      echo "File 'evaluate_model.py' does not exist. Aborting the script."
+      exit 1
+    fi
+    python evaluate_model.py
 fi
 
 read -p "Delete data files after training? (y/n): " choice

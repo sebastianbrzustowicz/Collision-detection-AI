@@ -1,4 +1,3 @@
-import pandas as pd
 from sklearn.model_selection import train_test_split
 import numpy as np
 import tensorflow as tf
@@ -50,6 +49,17 @@ np.savetxt('y_hat.csv', y_hat, delimiter=',', fmt='%.6f')
 y_hat = [0 if val <0.5 else 1 for val in y_hat]
 
 print("\nModel accuracy: " + str(accuracy_score(y_test, y_hat)))
+accuracy = accuracy_score(y_test, y_hat)*100
+if accuracy >= 90:
+    print("Excellent results!")
+elif 80 <= accuracy < 90:
+    print("Very good results.")
+elif 70 <= accuracy < 80:
+    print("Good results.")
+elif 60 <= accuracy < 70:
+    print("Fair results.")
+else:
+    print("Poor results, need improvement.")
 
 # 4. Saving and reloading model
 model.save("tfmodel")
