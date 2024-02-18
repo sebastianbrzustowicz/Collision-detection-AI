@@ -3,10 +3,26 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
 
 # Data size (fully adjustable)
 rows = 10000
 samples = 500 # columns
+
+mode = "train" # "train", "test", "custom"
+
+if len(sys.argv) > 1 and (sys.argv[1] == "train" or sys.argv[1] == "test"):
+    mode = str(sys.argv[1])
+
+rows = 10000 if mode == "train" else rows
+rows = 100 if mode == "test" else rows
+
+if(str(sys.argv[1]) == "custom"):
+    mode = str(sys.argv[1])
+    rows = int(sys.argv[2])
+    samples = int(sys.argv[3])
+
+print(f"Creating data for {mode} mode: {rows} rows, {samples} samples")
 
 # create output training data
 y_train = np.zeros((rows, 1))
@@ -85,25 +101,23 @@ permutation_indices = np.random.permutation(rows)
 X_train = X_train[permutation_indices, :]
 y_train = y_train[permutation_indices, :]
 
-print(y_train[:10])
+#print(y_train[:10])
 
-# Plot X_train
-plt.plot(X_train[0, :], label=f"X_train[:,0] {'collision' if y_train[0] == 1 else ' '}")
-plt.plot(X_train[1, :], label=f"X_train[:,1] {'collision' if y_train[1] == 1 else ' '}")
-plt.plot(X_train[2, :], label=f"X_train[:,2] {'collision' if y_train[2] == 1 else ' '}")
-plt.plot(X_train[3, :], label=f"X_train[:,3] {'collision' if y_train[3] == 1 else ' '}")
-plt.plot(X_train[4, :], label=f"X_train[:,4] {'collision' if y_train[4] == 1 else ' '}")
-plt.plot(X_train[5, :], label=f"X_train[:,5] {'collision' if y_train[5] == 1 else ' '}")
-plt.plot(X_train[6, :], label=f"X_train[:,6] {'collision' if y_train[6] == 1 else ' '}")
-plt.plot(X_train[7, :], label=f"X_train[:,7] {'collision' if y_train[7] == 1 else ' '}")
-plt.plot(X_train[8, :], label=f"X_train[:,8] {'collision' if y_train[8] == 1 else ' '}")
-plt.plot(X_train[9, :], label=f"X_train[:,9] {'collision' if y_train[9] == 1 else ' '}")
+# Plot head of X_train
+for i in range(10):
+    plt.plot(X_train[i, :], label=f"X_{mode}[:,{i}] {'collision' if y_train[i] == 1 else ' '}")
 plt.legend()
-plt.title('Example X_train data')
+plt.title(f'Example X_{mode} data')
 plt.xlabel('Sample')
 plt.ylabel('Value')
 plt.show()
 
 # Save to CSV file
-np.savetxt('X_train.csv', X_train, delimiter=',', fmt='%.6f')
-np.savetxt('y_train.csv', y_train, delimiter=',', fmt='%d')
+
+np.savetxt(f'X_{mode}.csv', X_train, delimiter=',', fmt='%.6f')
+np.savetxt(f'y_{mode}.csv', y_train, delimiter=',', fmt='%d')
+if mode == "train": del X_train, y_train
+elif mode == "test": del X_train, y_train
+
+print(f"Data saved to X_{mode}.csv and y_{mode}.csv")
+exit(0)
