@@ -1,6 +1,6 @@
 # Collision detection AI
 
-Repository for training a machine learning model for collision detection via an accelerometer sensor with the help of TensorFlow.    
+Train your machine learning model for collision detection with an accelerometer sensor data and TensorFlow.    
 The current model is kinda overfitted due to lack of diverse datasets.    
 So it would be better for you to train model on your own collected data from sensor.   
 The data should reflect the real conditions where your sensor is used.    
