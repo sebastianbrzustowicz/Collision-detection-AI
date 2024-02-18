@@ -4,9 +4,12 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Create data
-rows = 40
-samples = 100 # columns
+# Data size (fully adjustable)
+rows = 10000
+samples = 500 # columns
+
+# create output training data
+y_train = np.zeros((rows, 1))
 
 # random array
 random_arr = (np.random.rand(rows, samples) - 0.5) * 0.1
@@ -58,34 +61,49 @@ for i in range(subdivision + subdivision, subdivision + subdivision + subdivisio
 for i in range(3 * subdivision, 4 * subdivision):
     random_shift = np.random.uniform(-np.pi, np.pi)
     random_jump_location = np.random.randint(samples - 100, samples)
-    random_jump_size = np.random.uniform(1, 5)
-    
-    time = np.linspace(0 + random_shift, 2*np.pi + random_shift, samples)
-    
-    shapes_arr[i, :] = np.sin(time)
-    shapes_arr[i, random_jump_location:] += random_jump_size
+    random_jump_size = np.random.uniform(1, 4)
+    random_flip = np.random.choice([-1, 1])
+    random_jump_size *= random_flip
+    random_shape = np.random.choice([1, 2])
 
-# Sum all arrays and shuffle them
-data = random_arr + offset_arr + shapes_arr
-np.random.shuffle(data)
-#data[0, :] += shapes_arr
+    if (random_shape == 1):
+        time = np.linspace(0 + random_shift, 2*np.pi + random_shift, samples)
+        shapes_arr[i, :] = np.sin(time)
+        shapes_arr[i, random_jump_location:] += random_jump_size
+    elif (random_shape == 2):
+        random_slope = np.random.uniform(-1, 1)
+        random_bias = np.random.uniform(-1, 1)
+        shapes_arr[i, :] = random_slope * np.linspace(0, 1, samples) + random_bias
+        shapes_arr[i, random_jump_location:] += random_jump_size
 
-# Plot data
-plt.plot(data[0, :], label='Random plot 0')
-plt.plot(data[1, :], label='Random plot 1')
-plt.plot(data[2, :], label='Random plot 2')
-plt.plot(data[3, :], label='Random plot 3')
-plt.plot(data[4, :], label='Random plot 3')
-plt.plot(data[5, :], label='Random plot 3')
-plt.plot(data[6, :], label='Random plot 3')
-plt.plot(data[7, :], label='Random plot 3')
-plt.plot(data[8, :], label='Random plot 3')
-plt.plot(data[9, :], label='Random plot 3')
-plt.title('Example training data')
+    # marking y_train as collision
+    y_train[i] = 1
+
+# Sum all X_train arrays and shuffle it in the same way like y_train
+X_train = random_arr + offset_arr + shapes_arr
+permutation_indices = np.random.permutation(rows)
+X_train = X_train[permutation_indices, :]
+y_train = y_train[permutation_indices, :]
+
+print(y_train[:10])
+
+# Plot X_train
+plt.plot(X_train[0, :], label=f"X_train[:,0] {'collision' if y_train[0] == 1 else ' '}")
+plt.plot(X_train[1, :], label=f"X_train[:,1] {'collision' if y_train[1] == 1 else ' '}")
+plt.plot(X_train[2, :], label=f"X_train[:,2] {'collision' if y_train[2] == 1 else ' '}")
+plt.plot(X_train[3, :], label=f"X_train[:,3] {'collision' if y_train[3] == 1 else ' '}")
+plt.plot(X_train[4, :], label=f"X_train[:,4] {'collision' if y_train[4] == 1 else ' '}")
+plt.plot(X_train[5, :], label=f"X_train[:,5] {'collision' if y_train[5] == 1 else ' '}")
+plt.plot(X_train[6, :], label=f"X_train[:,6] {'collision' if y_train[6] == 1 else ' '}")
+plt.plot(X_train[7, :], label=f"X_train[:,7] {'collision' if y_train[7] == 1 else ' '}")
+plt.plot(X_train[8, :], label=f"X_train[:,8] {'collision' if y_train[8] == 1 else ' '}")
+plt.plot(X_train[9, :], label=f"X_train[:,9] {'collision' if y_train[9] == 1 else ' '}")
+plt.legend()
+plt.title('Example X_train data')
 plt.xlabel('Sample')
 plt.ylabel('Value')
 plt.show()
 
 # Save to CSV file
-#df.to_csv('data.csv', index=False, header=False)
-np.savetxt('data.csv', data, delimiter=',', fmt='%.6f')
+np.savetxt('X_train.csv', X_train, delimiter=',', fmt='%.6f')
+np.savetxt('y_train.csv', y_train, delimiter=',', fmt='%d')
