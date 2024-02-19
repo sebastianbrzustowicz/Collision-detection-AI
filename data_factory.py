@@ -73,11 +73,11 @@ for i in range(subdivision + subdivision, subdivision + subdivision + subdivisio
     
     shapes_arr[i, :] = nonlinear_values
 
-# conllision shape
+# collision shape
 for i in range(3 * subdivision, 4 * subdivision):
     random_shift = np.random.uniform(-np.pi, np.pi)
-    random_jump_location = np.random.randint(samples - 100, samples)
-    random_jump_size = np.random.uniform(1, 4)
+    random_jump_location = np.random.randint(0, samples)
+    random_jump_size = np.random.uniform(0.5, 1.5)
     random_flip = np.random.choice([-1, 1])
     random_jump_size *= random_flip
     random_shape = np.random.choice([1, 2])
