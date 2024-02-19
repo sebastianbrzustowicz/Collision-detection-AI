@@ -45,6 +45,16 @@ For output data (y_train, y_test) just int value every line, where collision equ
 
 In evaluation process, script shows you 5 worst learning cases for this dataset with their errors and indexes.    
 
+## Exporting model
+
+The script helps to host the model in a Docker container.            
+A sample request to this service is written in the file request.py.            
+Response from a service:        
+```
+{'predictions': [[0.999998629]]}
+```
+where the actual value was 1.0.
+
 ## License
 
 Collision detection AI is released under the CC BY-NC-ND 4.0 license.
