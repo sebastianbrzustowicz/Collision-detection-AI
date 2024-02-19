@@ -35,14 +35,15 @@ from sklearn.metrics import accuracy_score
 
 # 2. Build and compile model
 model = Sequential()
-model.add(Dense(units=32, activation="relu", input_dim=len(X_test[0])))
+model.add(Dense(units=len(X_test[0]), activation="relu", input_dim=len(X_test[0])))
 model.add(Dense(units=64, activation="relu"))
+model.add(Dense(units=32, activation="relu"))
 model.add(Dense(units=1, activation="sigmoid"))
 
 model.compile(loss="binary_crossentropy", optimizer="sgd", metrics=["accuracy"])
 
 # 3. Fit, predict and evaluate
-model.fit(X_train, y_train, epochs=200, batch_size=32, verbose=2)
+model.fit(X_train, y_train, epochs=40, batch_size=32, verbose=2)
 
 y_hat = model.predict(X_test)
 np.savetxt('y_hat.csv', y_hat, delimiter=',', fmt='%.6f')

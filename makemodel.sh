@@ -64,13 +64,11 @@ else
     exit 0
 fi
 
-export TF_ENABLE_ONEDNN_OPTS=0
-
 if [ ! -f "main.py" ]; then
   echo "File 'main.py' does not exist. Aborting the script."
   exit 1
 fi
-python main.py
+TF_ENABLE_ONEDNN_OPTS=0 python main.py
 
 if [ $? -eq 0 ]; then
   echo "Model trained succesfully (tfmodel folder)."
@@ -90,9 +88,11 @@ if [[ $choice =~ ^[Yy]$ ]]; then
     python evaluate_model.py
 fi
 
-read -p "Delete data files after training? (y/n): " choice
+read -p "Do you want to keep data files after training? (y/n): " choice
 
 if [[ $choice =~ ^[Yy]$ ]]; then
+    echo "Data files remain in the project folder."
+else
     files_to_remove=("X_train.csv" "X_test.csv" "y_train.csv" "y_test.csv" "X_train_preprocessed.csv" "X_test_preprocessed.csv" "y_hat.csv")
     for file in "${files_to_remove[@]}"; do
     # Check if file exist
@@ -102,8 +102,38 @@ if [[ $choice =~ ^[Yy]$ ]]; then
     else
         echo "File $file does not exist."
     fi
-done
-else
-    echo "Script execution aborted."
-    exit 0
+    done
 fi
+
+read -p "Do you want to start TensorFlow model hosting service in Docker? (y/n): " choice
+
+if [[ $choice =~ ^[Yy]$ ]]; then
+    echo "Starting service in Docker..."
+    if [ ! -f "startservice.sh" ]; then
+      echo "File 'startservice.py' does not exist. Aborting the script."
+      exit 1
+    fi
+    bash ./startservice.sh
+
+    if [ ! -f "X_test_preprocessed.csv" ] || [ ! -f "y_test.csv" ]; then
+      echo "Full example of sending a request to a model in a request.py file."
+      echo "Script completed."
+      read -n 1 -s -r -p "Press any key to exit..."
+      exit 0
+    else
+      read -p "Do you want to send example request? (y/n): " choice
+      if [[ $choice =~ ^[Yy]$ ]]; then
+      echo "Sending request to hosted model..."
+        if [ ! -f "request.py" ]; then
+          echo "File 'request.py' does not exist. Aborting the script."
+          exit 1
+        fi
+        python request.py
+        echo "Full example of sending a request to a model in a request.py file."
+      fi
+    fi
+fi
+
+echo "Script completed."
+read -n 1 -s -r -p "Press any key to exit..."
+exit 0
