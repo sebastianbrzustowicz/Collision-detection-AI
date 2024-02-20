@@ -17,7 +17,7 @@ if len(sys.argv) > 1 and (sys.argv[1] == "train" or sys.argv[1] == "test"):
 rows = 10000 if mode == "train" else rows
 rows = 100 if mode == "test" else rows
 
-if(str(sys.argv[1]) == "custom"):
+if(len(sys.argv) > 1 and str(sys.argv[1]) == "custom"):
     mode = str(sys.argv[1])
     rows = int(sys.argv[2])
     samples = int(sys.argv[3])
@@ -77,7 +77,7 @@ for i in range(subdivision + subdivision, subdivision + subdivision + subdivisio
 for i in range(3 * subdivision, 4 * subdivision):
     random_shift = np.random.uniform(-np.pi, np.pi)
     random_jump_location = np.random.randint(0, samples)
-    random_jump_size = np.random.uniform(0.5, 1.5)
+    random_jump_size = np.random.uniform(0.3, 1.5)
     random_flip = np.random.choice([-1, 1])
     random_jump_size *= random_flip
     random_shape = np.random.choice([1, 2])
