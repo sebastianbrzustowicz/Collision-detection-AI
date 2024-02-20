@@ -34,7 +34,7 @@ This script guides you step by step through the training process.
 The data is designed to mimic the possible orientation of a multi-rotor vehicle during flight, changes in flight direction and collision with an obstacle.
 Example of test data generated looks as below.    
 <p align="center">
-    <img src="https://github.com/sebastianbrzustowicz/Collision-detection-AI/assets/66909222/beeaf908-1eca-4d9a-8025-bc3f04c955b7" alt="Opis obrazka" style="width:500px;height:400px;">
+    <img src="https://github.com/sebastianbrzustowicz/Collision-detection-AI/assets/66909222/bb8e0191-d418-40bc-a041-ceb301e7346d" alt="Opis obrazka" style="width:500px;height:370px;">
 </p>
 
 The data provided is preprocessed (normalised), so it is not necessary to provide it in a specific unit format.    
