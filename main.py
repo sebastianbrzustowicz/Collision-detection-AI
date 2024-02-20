@@ -43,7 +43,7 @@ model.add(Dense(units=1, activation="sigmoid"))
 model.compile(loss="binary_crossentropy", optimizer="sgd", metrics=["accuracy"])
 
 # 3. Fit, predict and evaluate
-model.fit(X_train, y_train, epochs=40, batch_size=32, verbose=2)
+model.fit(X_train, y_train, epochs=70, batch_size=32, verbose=2)
 
 y_hat = model.predict(X_test)
 np.savetxt('y_hat.csv', y_hat, delimiter=',', fmt='%.6f')
